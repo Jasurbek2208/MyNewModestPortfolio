@@ -18,6 +18,8 @@ export const GlobalStyle = createGlobalStyle`
 
     
     body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
         background-color: #f1f1f1;
         animation: fadeIn ease 0.5s;
     }
