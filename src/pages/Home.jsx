@@ -1,24 +1,28 @@
 import React from "react";
 import styled from "styled-components";
+import img from "./unsplash.jpg";
+import img1 from "./img1.png";
+import img2 from "./img2.png";
+import img3 from "./img3.png";
 
 export default function Home() {
   return (
     <StyledMain id="header">
-      <div class="container">
+      <div className="container">
         <h1>Jasurbek Shomaqsudov</h1>
         <h2>Front-end Developer</h2>
-        <div class="social-media">
+        <div className="social-media">
           <a href="#">
-            <i class="fa fa-facebook"></i>
+            <i className="fa fa-facebook"></i>
           </a>
           <a href="#">
-            <i class="fa fa-twitter"></i>
+            <i className="fa fa-twitter"></i>
           </a>
           <a href="#">
-            <i class="fa fa-instagram"></i>
+            <i className="fa fa-instagram"></i>
           </a>
           <a href="#">
-            <i class="fa fa-linkedin"></i>
+            <i className="fa fa-linkedin"></i>
           </a>
         </div>
       </div>
@@ -27,29 +31,33 @@ export default function Home() {
 }
 
 const StyledMain = styled.header`
-  background-image: url("header-bg.jpg");
-  background-size: cover;
-  background-position: center;
   height: calc(100vh - 53px - 46px);
+  color: #fff;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+
+  /* background-image: url(${img3}); */
+  background-position: center;
+  background-size: cover;
+
   animation: fadeIn ease 0.5s;
+  transition: background-image 2s;
 
   & > .container > h1 {
     font-size: 60px;
     color: #333;
     margin-bottom: 10px;
     text-shadow: 1.3px 1.3px #fff;
-    animation: fadeIn ease 0.5s;
+    animation: fadeIn ease 0.8s;
   }
 
   & > .container > h2 {
     font-size: 40px;
     font-weight: normal;
     text-shadow: 1.3px 1.3px #000;
-    animation: fadeIn ease 0.5s;
+    animation: fadeIn ease 0.9s;
   }
 
   & > .container > .social-media {

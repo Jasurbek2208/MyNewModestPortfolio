@@ -6,11 +6,9 @@ export const GlobalStyle = createGlobalStyle`
         padding: 0px;
         box-sizing: border-box;
         font-family: Arial, sans-serif;
-        transition: all 0.3s ease-in-out;
-        animation: fadeIn ease 0.5s;
     }
 
-    .container {
+    .container { 
         padding: 0px 16px;
         margin: 0 auto; 
         max-width: 900px;
@@ -21,7 +19,7 @@ export const GlobalStyle = createGlobalStyle`
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         background-color: #f1f1f1;
-        animation: fadeIn ease 0.5s;
+        overflow-y: hidden;
     }
 
     
@@ -32,5 +30,28 @@ export const GlobalStyle = createGlobalStyle`
         font-weight: bold;
         margin-bottom: 20px;
         animation: fadeIn ease 0.5s;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from {
+            margin-top: -30px;
+            opacity: 0;
+        }
+        to {
+            margin-top: 0px;
+            opacity: 1;
+        }
+    }
+    
+    @keyframes fadeInRevers {
+        from {
+            margin-top: 300px;
+            opacity: 0;
+        }
+        to {
+            margin-top: 0px;
+            opacity: 1;
+        }
     }
 `

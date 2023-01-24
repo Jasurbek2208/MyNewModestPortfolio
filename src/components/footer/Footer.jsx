@@ -14,14 +14,14 @@ export default function Footer() {
 const StyledFooter = styled.footer`
   padding: 16px 0;
   background-color: #333;
-  animation: fadeIn ease 0.5s;
+  animation: fadeInRevers ease 0.5s;
 
   p {
     text-align: center;
     color: #fff;
     font-weight: 500;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    animation: fadeIn ease 0.5s;
+    animation: fadeInRevers ease 0.5s;
   }
   
   @media (max-width: 360px) {
