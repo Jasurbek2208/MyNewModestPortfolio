@@ -12,6 +12,7 @@ export default function Footer() {
 }
 
 const StyledFooter = styled.footer`
+  width: 100%;
   padding: 16px 0;
   background-color: #333;
   animation: fadeInRevers ease 0.5s;
@@ -23,7 +24,7 @@ const StyledFooter = styled.footer`
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     animation: fadeInRevers ease 0.5s;
   }
-  
+
   @media (max-width: 360px) {
     p {
       font-size: 14px;

@@ -31,7 +31,7 @@ export default function Home() {
 }
 
 const StyledMain = styled.header`
-  height: calc(100vh - 53px - 46px);
+  height: calc(100vh - 50px - 53px);
   color: #fff;
 
   display: flex;
@@ -42,8 +42,8 @@ const StyledMain = styled.header`
   background-position: center;
   background-size: cover;
 
-  animation: fadeIn ease 0.5s;
-  transition: background-image 2s;
+  /* animation: fadeIn ease 0.5s; */
+  /* transition: background-image 2s; */
 
   & > .container > h1 {
     font-size: 60px;
