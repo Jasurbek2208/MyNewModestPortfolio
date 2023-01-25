@@ -54,6 +54,11 @@ const StyledNavbar = styled.nav`
         font-weight: bolder;
         border-bottom: 4px solid #fff;
       }
+
+      &:focus {
+        outline: none;
+        background-color: #444;
+      }
     }
   }
 `;

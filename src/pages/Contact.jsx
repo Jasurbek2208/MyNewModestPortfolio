@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 export default function Contact() {
@@ -15,7 +15,7 @@ export default function Contact() {
 
   setTimeout(() => {
     setMapLoading(false);
-  }, 1000);
+  }, 8000);
 
   return (
     <StyledContact id="contact">
@@ -170,6 +170,7 @@ const StyledContact = styled.div`
           height: 400px !important;
           border-radius: 15px;
           border: 2px solid #333;
+          z-index: 10;
         }
       }
     }

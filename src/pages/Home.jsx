@@ -1,9 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import img from "./unsplash.jpg";
-import img1 from "./img1.png";
-import img2 from "./img2.png";
-import img3 from "./img3.png";
 
 export default function Home() {
   return (
@@ -37,13 +33,6 @@ const StyledMain = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* background-image: url(${img3}); */
-  background-position: center;
-  background-size: cover;
-
-  /* animation: fadeIn ease 0.5s; */
-  /* transition: background-image 2s; */
 
   & > .container > h1 {
     font-size: 60px;
