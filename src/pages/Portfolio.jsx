@@ -63,13 +63,13 @@ export default function Portfolio() {
             <div className="carrousel__link__wrapper">
               <a
                 className="carousel__link"
-                href={portfolios[currentIndex]?.link}
+                href={portfolios[currentIndex]?.project_link}
               >
                 View Project
               </a>
               <a
                 className="carousel__link"
-                href={portfolios[currentIndex]?.link}
+                href={portfolios[currentIndex]?.github_link}
               >
                 View GitHub
               </a>

@@ -1,17 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { myAxios } from "../service/axios";
 
 export default function Contact() {
   const [mapLoading, setMapLoading] = useState(true);
 
-  function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
       email: e.target.email.value,
       fullName: e.target.fullName.value,
       description: e.target.description.value,
     };
-  }
+    console.log(data);
+
+    try {
+      const res = await myAxios.post("/send-email", {
+        to: data.email,
+        subject: "From Portfolio site",
+        html: `
+            <p>${data.fullName}</p>
+            <p>${data.description}</p>
+            `,
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+
+    // user: "jasurbekstudios2208@gmail.com",
+    // pass: "22jonimoi08",
+    // const mailOptions = {
+    //   from: process.env.EMAIL,
+    //   to: data.email,
+    //   subject: "From portfolio site.",
+    //   html: `
+    //   <p>${data.fullName}</p>
+    //   <p>${data.description}</p>
+    //   `,
+    // };
+    // transporter.sendMail(mailOptions, function (error, info) {
+    //   if (error) {
+    //     console.log(error);
+    //   } else {
+    //     console.log("Email sent: " + info.response);
+    //   }
+    // });
+  };
 
   setTimeout(() => {
     setMapLoading(false);
