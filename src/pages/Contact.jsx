@@ -27,25 +27,6 @@ export default function Contact() {
     } catch (err) {
       console.log(err);
     }
-
-    // user: "jasurbekstudios2208@gmail.com",
-    // pass: "22jonimoi08",
-    // const mailOptions = {
-    //   from: process.env.EMAIL,
-    //   to: data.email,
-    //   subject: "From portfolio site.",
-    //   html: `
-    //   <p>${data.fullName}</p>
-    //   <p>${data.description}</p>
-    //   `,
-    // };
-    // transporter.sendMail(mailOptions, function (error, info) {
-    //   if (error) {
-    //     console.log(error);
-    //   } else {
-    //     console.log("Email sent: " + info.response);
-    //   }
-    // });
   };
 
   setTimeout(() => {
@@ -63,18 +44,19 @@ export default function Contact() {
               <label htmlFor="text">Description</label>
               <textarea
                 name="description"
-                placeholder="asdfgeqwdefgdf"
+                placeholder="Write your message"
                 cols="30"
                 rows="10"
+                required
               ></textarea>
             </div>
             <div className="input__wrapper">
               <label htmlFor="text">Full Name</label>
-              <input type="text" name="fullName" id="text" />
+              <input type="text" name="fullName" id="text" required />
             </div>
             <div className="input__wrapper">
               <label htmlFor="text">Email</label>
-              <input type="email" name="email" id="email" />
+              <input type="email" name="email" id="email" required />
             </div>
             <div className="button__wrapper">
               <button type="submit">Send</button>
