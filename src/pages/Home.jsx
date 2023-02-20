@@ -76,7 +76,7 @@ const StyledMain = styled.header`
         max-height: 28px;
         font-size: 2.7rem !important;
         color: #000000 !important;
-        animation: fadeIn ease 0.7s;
+        animation: fadeIn ease 2s;
         transition: 300ms ease-in-out;
       }
     }
