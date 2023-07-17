@@ -13,7 +13,7 @@ export default function Footer() {
 
 const StyledFooter = styled.footer`
   width: 100%;
-  padding: 16px 0;
+  padding: 20px 0;
   background-color: #333;
   animation: fadeInRevers ease 0.5s;
 

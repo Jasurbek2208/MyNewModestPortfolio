@@ -1,29 +1,34 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
+import axios from "axios";
 import styled from "styled-components";
-import { myAxios } from "../service/axios";
 
 export default function Contact() {
   const [mapLoading, setMapLoading] = useState(true);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
-      email: e.target.email.value,
-      fullName: e.target.fullName.value,
-      description: e.target.description.value,
-    };
-    console.log(data);
+
+    const API_URL = `https://api.telegram.org/bot5833819728:AAH1dRS8nucWa5_Mh_CmoKUJOIx5uTsYg6I/sendMessage`;
+    const message = `<b>Name:</b> ${e.target.fullName.value}\n\n<b>Email:</b> ${e.target.email.value}\n\n<b>Message:</b> ${e.target.description.value}`;
 
     try {
-      const res = await myAxios.post("/send-email", {
-        to: data.email,
-        subject: "From Portfolio site",
-        html: `
-            <p>${data.fullName}</p>
-            <p>${data.description}</p>
-            `,
-      });
-      console.log(res);
+      await axios.post(
+        API_URL,
+        {
+          chat_id: "-1001901613513",
+          parse_mode: "html",
+          text: message,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      toast.success("Message sent successfully!");
+      document.getElementById("form").reset();
     } catch (err) {
       console.log(err);
     }
@@ -52,11 +57,23 @@ export default function Contact() {
             </div>
             <div className="input__wrapper">
               <label htmlFor="text">Full Name</label>
-              <input type="text" name="fullName" id="text" required />
+              <input
+                type="text"
+                name="fullName"
+                placeholder="Enter your full name"
+                id="text"
+                required
+              />
             </div>
             <div className="input__wrapper">
               <label htmlFor="text">Email</label>
-              <input type="email" name="email" id="email" required />
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                id="email"
+                required
+              />
             </div>
             <div className="button__wrapper">
               <button type="submit">Send</button>
@@ -88,8 +105,6 @@ export default function Contact() {
 }
 
 const StyledContact = styled.div`
-  min-height: calc(100vh - 50px - 53px);
-
   .contact__wrapper {
     padding: 40px 0px 30px;
     display: flex;
@@ -138,6 +153,7 @@ const StyledContact = styled.div`
         textarea {
           min-width: 100%;
           max-width: 400px;
+
           min-height: 150px;
           max-height: 150px;
         }
@@ -151,8 +167,11 @@ const StyledContact = styled.div`
           cursor: pointer;
           padding: 10px 12px;
           width: 150px;
+
           color: #fff;
           font-weight: 600;
+          font-size: 14.5px;
+
           border: none;
           border-radius: 10px;
           background-color: #333;

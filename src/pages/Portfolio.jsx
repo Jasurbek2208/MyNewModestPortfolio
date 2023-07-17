@@ -3,7 +3,7 @@ import { myAxios } from "../service/axios";
 import styled from "styled-components";
 
 export default function Portfolio() {
-  const [portfolios, setPortfolios] = useState([]);
+  const [portfolios, setPortfolios] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [error, setError] = useState(false);
 
@@ -24,17 +24,17 @@ export default function Portfolio() {
   // Carrousel left click
   const previous = () => {
     const newIndex = currentIndex - 1;
-    setCurrentIndex(newIndex < 0 ? portfolios.length - 1 : newIndex);
+    setCurrentIndex(newIndex < 0 ? portfolios?.length - 1 : newIndex);
   };
 
   // Carrousel right click
   const next = () => {
     const newIndex = currentIndex + 1;
-    setCurrentIndex(newIndex % portfolios.length);
+    setCurrentIndex(newIndex % portfolios?.length);
   };
   return (
     <StyledPortfolio>
-      {error ? (
+      {error || portfolios?.length === 0 ? (
         <div className="error-content">
           <h1 className="error-content-text">Portfolios not found!</h1>
           <h5>
@@ -42,7 +42,7 @@ export default function Portfolio() {
             <a href="https://github.com/Jasurbek2208">Click here!</a>
           </h5>
         </div>
-      ) : portfolios.length === 0 ? (
+      ) : portfolios === null ? (
         <div className="loading__wrapper">
           <div className="loading"></div>
         </div>
@@ -89,7 +89,6 @@ export default function Portfolio() {
 
 const StyledPortfolio = styled.div`
   padding: 40px 16px 0px;
-  height: calc(100vh - 50px - 53px);
 
   .error-content {
     height: calc(100vh - 50px - 53px - 80px);

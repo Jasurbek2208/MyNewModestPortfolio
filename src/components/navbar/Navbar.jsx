@@ -41,11 +41,14 @@ const StyledNavbar = styled.nav`
     animation: fadeIn ease 0.5s;
 
     & > a {
-      padding: 14px 20px;
+      padding: 16px 18px;
       display: inline-block;
+
       color: #fff;
       font-weight: bold;
+      font-size: 17.2px;
       text-decoration: none;
+
       border-bottom: 4px solid #fff0;
       transition: all 0.3s ease-in-out;
       animation: fadeIn ease 0.5s;

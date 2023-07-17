@@ -12,12 +12,12 @@ export default function Home() {
     <StyledMain id="header">
       <div className="container">
         <h1>Jasurbek Shomaqsudov</h1>
-        <h2>Front-end Developer</h2>
+        <h2>Frontend Developer</h2>
         <div className="social-media">
           <a href="https://github.com/Jasurbek2208">
             <img className="icon" src={github} alt="github logo" />
           </a>
-          <a href="https://www.instagram.com/jasurbekshomaqsudov_frontend">
+          <a href="https://www.instagram.com/jasurbek_shomaqsudov">
             <img className="icon" src={instagram} alt="instagram logo" />
           </a>
           <a href="https://t.me/Joni2208">
@@ -33,12 +33,10 @@ export default function Home() {
 }
 
 const StyledMain = styled.header`
-  height: calc(100vh - 50px - 53px);
   color: #fff;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
 
   & > .container > h1 {
     font-size: 60px;
