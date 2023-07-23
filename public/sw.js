@@ -47,6 +47,6 @@ async function networkFirst(request) {
         return response;
     } catch (e) {
         const cached = await cache.match(request);
-        return cached ?? (await caches.match(assetUrls));
+        return cached ?? (await cacheFirst(request));
     }
 }
