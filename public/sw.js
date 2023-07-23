@@ -5,6 +5,7 @@ const assetUrls = [
     '/index.html',
     '../src/index.js',
     '../src/App.js',
+    '../src/router/Router.jsx',
 ];
 
 self.addEventListener('install', async (event) => {
@@ -48,4 +49,16 @@ async function networkFirst(request) {
         const cached = await cache.match(request);
         return cached ?? (await caches.match('/index.html'));
     }
+}
+
+async function networkFirst(request) {
+  const cache = await caches.open(dynamicCacheName)
+  try {
+    const response = await fetch(request)
+    await cache.put(request, response.clone())
+    return response
+  } catch (e) {
+    const cached = await cache.match(request)
+    return cached ?? await caches.match('/index.html')
+  }
 }
