@@ -2,7 +2,8 @@ const staticCacheName = 's-app-v3';
 const dynamicCacheName = 'd-app-v3';
 
 const assetUrls = [
-    '/index.html',
+    '/',
+    './index.html',
     '../src/index.js',
     '../src/App.js',
     '../src/layouts/MainLayout.jsx',
@@ -13,44 +14,50 @@ const assetUrls = [
 ];
 
 self.addEventListener('install', async (event) => {
-    const cache = await caches.open(staticCacheName);
-    await cache.addAll(assetUrls);
+    try {
+        const cache = await caches.open(staticCacheName);
+        await cache.addAll(assetUrls);
+        console.log('Service worker: Assets cached');
+    } catch (error) {
+        console.error('Service worker: Cache installation failed', error);
+    }
 });
 
 self.addEventListener('activate', async (event) => {
-    const cacheNames = await caches.keys();
-    await Promise.all(
-        cacheNames
-            .filter((name) => name !== staticCacheName)
-            .filter((name) => name !== dynamicCacheName)
-            .map((name) => caches.delete(name))
-    );
+    try {
+        const cacheNames = await caches.keys();
+        await Promise.all(
+            cacheNames
+                .filter((name) => name !== staticCacheName && name !== dynamicCacheName)
+                .map((name) => caches.delete(name))
+        );
+        console.log('Service worker: Cache cleared');
+    } catch (error) {
+        console.error('Service worker: Cache activation failed', error);
+    }
 });
 
 self.addEventListener('fetch', (event) => {
     const { request } = event;
-
-    const url = new URL(request.url);
-    if (url.origin === location.origin) {
-        event.respondWith(cacheFirst(request));
-    } else {
-        event.respondWith(networkFirst(request));
-    }
+    event.respondWith(cacheFirst(request));
 });
 
 async function cacheFirst(request) {
-    const cached = await caches.match(request);
-    return cached ?? (await fetch(request));
-}
-
-async function networkFirst(request) {
-    const cache = await caches.open(dynamicCacheName);
     try {
-        const response = await fetch(request);
-        await cache.put(request, response.clone());
-        return response;
-    } catch (e) {
-        const cached = await cache.match(request);
-        return cached ?? (await cacheFirst(request));
+        const cachedResponse = await caches.match(request);
+        if (cachedResponse) {
+            console.log('Service worker: Cache hit', request.url);
+            return cachedResponse;
+        }
+
+        console.log('Service worker: Cache miss, fetching from network', request.url);
+        const dynamicCache = await caches.open(dynamicCacheName);
+        const networkResponse = await fetch(request);
+        dynamicCache.put(request, networkResponse.clone());
+        return networkResponse;
+    } catch (error) {
+        console.error('Service worker: Fetch failed, returning fallback', error);
+        const cachedResponse = await caches.match('/index.html');
+        return cachedResponse;
     }
 }
