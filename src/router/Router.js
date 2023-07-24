@@ -13,9 +13,9 @@ import Portfolio from '../pages/Portfolio';
 export default function Router() {
   const [isOnline, setIsOnline] = useState(true);
 
-  function handleOnline() {
+  function handleOnline(isFirstCall = false) {
     if (navigator.onLine) {
-      if (isOnline) {
+      if (isOnline && !isFirstCall) {
         toast.success("Internet connected!");
       }
       setIsOnline(true);
@@ -23,15 +23,16 @@ export default function Router() {
       setIsOnline(false);
       toast.error("No internet connection!");
     }
-    console.log(navigator.onLine);
   }
 
   useEffect(() => {
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOnline);
+    handleOnline(true);
+
+    window.addEventListener("online", () => handleOnline(false));
+    window.addEventListener("offline", () => handleOnline(false));
     return () => {
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOnline);
+      window.removeEventListener("online", () => handleOnline(false));
+      window.removeEventListener("offline", () => handleOnline(false));
     };
   }, []);
 

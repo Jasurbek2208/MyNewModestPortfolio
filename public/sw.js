@@ -17,7 +17,6 @@ self.addEventListener('install', async (event) => {
     try {
         const cache = await caches.open(staticCacheName);
         await cache.addAll(assetUrls);
-        console.log('Service worker: Assets cached');
     } catch (error) {
         console.error('Service worker: Cache installation failed', error);
     }
@@ -31,7 +30,6 @@ self.addEventListener('activate', async (event) => {
                 .filter((name) => name !== staticCacheName && name !== dynamicCacheName)
                 .map((name) => caches.delete(name))
         );
-        console.log('Service worker: Cache cleared');
     } catch (error) {
         console.error('Service worker: Cache activation failed', error);
     }
@@ -46,17 +44,15 @@ async function cacheFirst(request) {
     try {
         const cachedResponse = await caches.match(request);
         if (cachedResponse) {
-            console.log('Service worker: Cache hit', request.url);
             return cachedResponse;
         }
 
-        console.log('Service worker: Cache miss, fetching from network', request.url);
         const dynamicCache = await caches.open(dynamicCacheName);
         const networkResponse = await fetch(request);
+
         dynamicCache.put(request, networkResponse.clone());
         return networkResponse;
     } catch (error) {
-        console.error('Service worker: Fetch failed, returning fallback', error);
         const cachedResponse = await caches.match('/index.html');
         return cachedResponse;
     }

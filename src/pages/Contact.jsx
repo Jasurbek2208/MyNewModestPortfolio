@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import styled from "styled-components";
 
 export default function Contact() {
+  const mapRef = useRef();
   const [mapLoading, setMapLoading] = useState(true);
 
   const handleSubmit = async (e) => {
@@ -37,6 +38,21 @@ export default function Contact() {
   setTimeout(() => {
     setMapLoading(false);
   }, 8000);
+
+  function reloadMap() {
+    setMapLoading(true)
+    mapRef.current.src = mapRef.current.src;
+
+    setTimeout(() => {
+      setMapLoading(false);
+    }, 8000);
+  }
+
+  useEffect(() => {
+    window.addEventListener("online", () => reloadMap());
+
+    return window.removeEventListener("online", () => reloadMap());
+  }, []);
 
   return (
     <StyledContact id="contact">
@@ -89,6 +105,7 @@ export default function Contact() {
                 </div>
               ) : null}
               <iframe
+                ref={mapRef}
                 className="gmap_iframe"
                 frameBorder="0"
                 scrolling="no"
