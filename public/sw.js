@@ -35,25 +35,47 @@ self.addEventListener('activate', async (event) => {
     }
 });
 
-self.addEventListener('fetch', (event) => {
-    const { request } = event;
-    event.respondWith(cacheFirst(request));
-});
+self.addEventListener('fetch', event => {
+    const { request } = event
 
+    const url = new URL(request.url)
+    if (url.origin === location.origin) {
+        event.respondWith(cacheFirst(request))
+    } else {
+        event.respondWith(networkFirst(request))
+    }
+})
+
+// async function cacheFirst(request) {
+//     try {
+//         const cachedResponse = await caches.match(request);
+//         if (cachedResponse) {
+//             return cachedResponse;
+//         }
+
+//         const dynamicCache = await caches.open(dynamicCacheName);
+//         const networkResponse = await fetch(request);
+
+//         dynamicCache.put(request, networkResponse.clone());
+//         return networkResponse;
+//     } catch (error) {
+//         const cachedResponse = await caches.match('/index.html');
+//         return cachedResponse;
+//     }
+// }
 async function cacheFirst(request) {
+    const cached = await caches.match(request)
+    return cached ?? await fetch(request)
+}
+
+async function networkFirst(request) {
+    const cache = await caches.open(dynamicCacheName)
     try {
-        const cachedResponse = await caches.match(request);
-        if (cachedResponse) {
-            return cachedResponse;
-        }
-
-        const dynamicCache = await caches.open(dynamicCacheName);
-        const networkResponse = await fetch(request);
-
-        dynamicCache.put(request, networkResponse.clone());
-        return networkResponse;
-    } catch (error) {
-        const cachedResponse = await caches.match('/index.html');
-        return cachedResponse;
+        const response = await fetch(request)
+        await cache.put(request, response.clone())
+        return response
+    } catch (e) {
+        const cached = await cache.match(request)
+        return cached ?? await caches.match('/offline.html')
     }
 }
