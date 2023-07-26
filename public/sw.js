@@ -15,7 +15,7 @@ const assetUrls = [
 
 self.addEventListener('install', async (event) => {
     try {
-        const cache = await caches.open(staticCacheName);
+        const cache = await caches.open(dynamicCacheName);
         await cache.addAll(assetUrls);
     } catch (error) {
         console.error('Service worker: Cache installation failed', error);
