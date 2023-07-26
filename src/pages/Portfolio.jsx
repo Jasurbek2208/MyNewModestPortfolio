@@ -54,7 +54,7 @@ export default function Portfolio() {
         <div className="carousel__wrapper">
           <img
             className="carousel__image"
-            src={portfolios[currentIndex]?.image}
+            src={portfolios[currentIndex]?.img}
             alt={portfolios[currentIndex]?.title}
           />
           <div className="carousel__content">
