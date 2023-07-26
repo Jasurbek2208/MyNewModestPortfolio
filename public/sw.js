@@ -1,4 +1,3 @@
-const staticCacheName = 's-app-v3';
 const dynamicCacheName = 'd-app-v3';
 
 const assetUrls = [
@@ -13,7 +12,7 @@ const assetUrls = [
     '../src/router/Router.jsx',
 ];
 
-self.addEventListener('install', async (event) => {
+self.addEventListener('install', async () => {
     try {
         const cache = await caches.open(dynamicCacheName);
         await cache.addAll(assetUrls);
@@ -22,12 +21,12 @@ self.addEventListener('install', async (event) => {
     }
 });
 
-self.addEventListener('activate', async (event) => {
+self.addEventListener('activate', async () => {
     try {
         const cacheNames = await caches.keys();
         await Promise.all(
             cacheNames
-                .filter((name) => name !== staticCacheName && name !== dynamicCacheName)
+                .filter((name) => name !== dynamicCacheName)
                 .map((name) => caches.delete(name))
         );
     } catch (error) {
@@ -38,8 +37,6 @@ self.addEventListener('activate', async (event) => {
 self.addEventListener('fetch', event => {
     const { request } = event
 
-    // const url = new URL(request.url)
-    // if (url.origin === location.origin) {
     if (!navigator.onLine) {
         event.respondWith(cacheFirst(request))
     } else {
@@ -47,23 +44,6 @@ self.addEventListener('fetch', event => {
     }
 })
 
-// async function cacheFirst(request) {
-//     try {
-//         const cachedResponse = await caches.match(request);
-//         if (cachedResponse) {
-//             return cachedResponse;
-//         }
-
-//         const dynamicCache = await caches.open(dynamicCacheName);
-//         const networkResponse = await fetch(request);
-
-//         dynamicCache.put(request, networkResponse.clone());
-//         return networkResponse;
-//     } catch (error) {
-//         const cachedResponse = await caches.match('/index.html');
-//         return cachedResponse;
-//     }
-// }
 async function cacheFirst(request) {
     const cached = await caches.match(request)
     return cached ?? await fetch(request)

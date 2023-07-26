@@ -3,21 +3,25 @@ import { myAxios } from "../service/axios";
 import styled from "styled-components";
 
 export default function Portfolio() {
+  const dynamicCacheName = "d-app-v3";
+
   const [portfolios, setPortfolios] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    // Get Portfolio posts
-    async function getPortfolios() {
-      try {
-        const response = await myAxios.get("/portfolios");
-        setPortfolios(response.data);
-        setError(false);
-      } catch (err) {
-        setError(true);
-      }
+  // Get Portfolio posts
+  async function getPortfolios() {
+    try {
+      const response = await myAxios.get("/portfolios");
+      setPortfolios(response.data);
+
+      setError(false);
+    } catch (err) {
+      setError(true);
     }
+  }
+
+  useEffect(() => {
     getPortfolios();
   }, []);
 

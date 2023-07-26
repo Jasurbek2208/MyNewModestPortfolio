@@ -15,8 +15,8 @@ export default function Navbar() {
           Home
         </Link>
         <Link
-          to="/portfolio"
-          className={"text" + (location === "/portfolio" ? "--active" : "")}
+          to="/portfolios"
+          className={"text" + (location === "/portfolios" ? "--active" : "")}
         >
           Portfolio
         </Link>

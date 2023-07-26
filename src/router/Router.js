@@ -41,7 +41,7 @@ export default function Router() {
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="home" element={<Home />} />
-        <Route path="portfolio" element={<Portfolio />} />
+        <Route path="portfolios" element={<Portfolio />} />
         <Route path="contact" element={<Contact />} />
         <Route path="*" element={<Navigate to="/home" />} />
       </Route>
