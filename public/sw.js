@@ -38,8 +38,9 @@ self.addEventListener('activate', async (event) => {
 self.addEventListener('fetch', event => {
     const { request } = event
 
-    const url = new URL(request.url)
-    if (url.origin === location.origin) {
+    // const url = new URL(request.url)
+    // if (url.origin === location.origin) {
+    if (!navigator.onLine) {
         event.respondWith(cacheFirst(request))
     } else {
         event.respondWith(networkFirst(request))
