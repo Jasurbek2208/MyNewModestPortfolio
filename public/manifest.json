@@ -24,7 +24,7 @@
       "sizes": "128x128"
     },
     {
-      "src": "logo.png",
+      "src": "logo2.png",
       "type": "image/png",
       "sizes": "144x144"
     },
@@ -34,12 +34,12 @@
       "sizes": "152x152"
     },
     {
-      "src": "logo.png",
+      "src": "logo2.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo.png",
+      "src": "logo2.png",
       "type": "image/png",
       "sizes": "384x384"
     },
