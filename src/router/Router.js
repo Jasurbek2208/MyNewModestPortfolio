@@ -5,10 +5,12 @@ import toast from "react-hot-toast";
 // Layout
 import MainLayout from '../layouts/MainLayout'
 
-// Components
+// Pages
 import Home from '../pages/Home';
 import Contact from '../pages/Contact';
 import Portfolio from '../pages/Portfolio';
+// Admin pages
+import AddPost from '../pages/admin/AddPost';
 
 export default function Router() {
   const [isOnline, setIsOnline] = useState(true);
@@ -36,13 +38,13 @@ export default function Router() {
     };
   }, []);
 
-
   return (
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="home" element={<Home />} />
         <Route path="portfolios" element={<Portfolio />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="add-post" element={<AddPost />} />
         <Route path="*" element={<Navigate to="/home" />} />
       </Route>
     </Routes>

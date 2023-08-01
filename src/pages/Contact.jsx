@@ -40,7 +40,7 @@ export default function Contact() {
   }, 8000);
 
   function reloadMap() {
-    setMapLoading(true)
+    setMapLoading(true);
     mapRef.current.src = mapRef.current.src;
 
     setTimeout(() => {
@@ -105,6 +105,7 @@ export default function Contact() {
                 </div>
               ) : null}
               <iframe
+                title="google map"
                 ref={mapRef}
                 className="gmap_iframe"
                 frameBorder="0"
@@ -164,6 +165,10 @@ const StyledContact = styled.div`
           &:hover,
           &:focus {
             outline: 1px solid #333;
+          }
+
+          &::placeholder {
+            opacity: 0.7;
           }
         }
 
