@@ -1,40 +1,29 @@
 import React, { useState } from "react";
+import { myAxios } from "../../service/axios";
 import toast from "react-hot-toast";
 import styled from "styled-components";
 
 export default function AddPost() {
-  const [image, setImage] = useState("");
+  const [img, setImg] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("/db.json");
-      const jsonData = await response.json();
-      const data = { ...jsonData };
-
-      data.PORTFOLIOS.push({
-        title: e.target.title.value || "",
-        img: image || "",
-        project_link: e.target.projectLink.value || "",
+      const data = {
+        img,
+        title: e.target.title.value,
+        project_link: e.target.projectLink.value,
         github_link: e.target.githubLink.value || "",
-      });
+      };
 
-      console.log(data);
-      const res = await fetch("/db.json", {
-        method: "PUT",
-        data,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(res);
+      const response = await myAxios.post('/portfolio', data)
 
-      toast.success("Message sent successfully!");
+      toast.success(response.data.message);
       document.getElementById("form").reset();
-      setImage("");
-    } catch (err) {
-      console.log(err);
+      setImg("");
+    } catch (error) {
+      toast.error(error.response.data.message);
     }
   };
 
@@ -45,7 +34,7 @@ export default function AddPost() {
         <div className="input__wrapper">
           <label htmlFor="title">Title</label>
           <input
-            type="title"
+            type="text"
             name="title"
             placeholder="Enter your title"
             id="title"
@@ -60,12 +49,12 @@ export default function AddPost() {
               id="fileInput"
               name="fileInput"
               accept=".jpg, .jpeg, .png"
-              onChange={(e) => setImage(e.target.value)}
+              onChange={(e) => setImg(e.target.value)}
               required
             />
             <div className="input-vizual">
               <div>Click</div>
-              <div>{image || "File not selected!"}</div>
+              <div>{img || "File not selected!"}</div>
             </div>
           </div>
         </div>

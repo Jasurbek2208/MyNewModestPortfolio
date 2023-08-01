@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -18,14 +19,40 @@ export default function Navbar() {
           to="/portfolios"
           className={"text" + (location === "/portfolios" ? "--active" : "")}
         >
-          Portfolio
+          Portfolios
         </Link>
-        <Link
-          to="/contact"
-          className={"text" + (location === "/contact" ? "--active" : "")}
-        >
-          Contact
-        </Link>
+        {Cookies.get("token") ? (
+          <>
+            <Link
+              to="/add-post"
+              className={"text" + (location === "/add-post" ? "--active" : "")}
+            >
+              Add Post
+            </Link>
+            <Link
+              to="/"
+              className={"text" + (location === "/logout" ? "--active" : "")}
+              onClick={() => Cookies.remove("token")}
+            >
+              Logout
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/contact"
+              className={"text" + (location === "/contact" ? "--active" : "")}
+            >
+              Contact
+            </Link>
+            <Link
+              to="/login"
+              className={"text" + (location === "/login" ? "--active" : "")}
+            >
+              Login
+            </Link>
+          </>
+        )}
       </div>
     </StyledNavbar>
   );
@@ -39,6 +66,8 @@ const StyledNavbar = styled.nav`
     display: flex;
     justify-content: flex-end;
     animation: fadeIn ease 0.5s;
+    max-width: 100vw;
+    overflow-x: auto;
 
     & > a {
       padding: 16px 18px;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { myAxios } from "../service/axios";
 import styled from "styled-components";
 
 export default function Portfolio() {
@@ -6,17 +7,19 @@ export default function Portfolio() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    const getPortfolios = async () => {
-      try {
-        const response = await fetch("/db.json");
-        const jsonData = await response.json();
-        setPortfolios(jsonData.PORTFOLIOS);
-      } catch {
-        setError(true);
-      }
-    };
+  // Get Portfolio posts
+  async function getPortfolios() {
+    try {
+      const response = await myAxios.get("/portfolios");
+      setPortfolios(response.data);
 
+      setError(false);
+    } catch (err) {
+      setError(true);
+    }
+  }
+
+  useEffect(() => {
     getPortfolios();
   }, []);
 
