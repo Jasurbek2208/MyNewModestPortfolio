@@ -97,7 +97,7 @@ export default function AddPost() {
 }
 
 const StyledAddPost = styled.main`
-  padding: 40px 0px 30px;
+  padding: 40px 14px 30px;
   display: grid;
   place-items: center;
 
@@ -110,9 +110,11 @@ const StyledAddPost = styled.main`
     grid-gap: 25px;
 
     h3 {
+      margin-bottom: -5px;
       text-align: center;
       text-transform: uppercase;
-      font-weight: 900;
+      font-size: 36px;
+      font-weight: 800;
     }
 
     .input__wrapper {
