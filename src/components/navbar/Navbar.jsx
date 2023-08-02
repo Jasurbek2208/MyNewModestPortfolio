@@ -1,11 +1,15 @@
 import Cookies from "js-cookie";
 import React from "react";
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
-export default function Navbar() {
+export default function Navbar({ isAuth, handleAuth }) {
   const location = useLocation().pathname;
+  useEffect(()=>{
+console.log(isAuth);
 
+},[isAuth])
   return (
     <StyledNavbar id="navbar">
       <div className="container">
@@ -21,7 +25,7 @@ export default function Navbar() {
         >
           Portfolios
         </Link>
-        {Cookies.get("token") ? (
+        {isAuth ? (
           <>
             <Link
               to="/add-post"
@@ -32,7 +36,7 @@ export default function Navbar() {
             <Link
               to="/"
               className={"text" + (location === "/logout" ? "--active" : "")}
-              onClick={() => Cookies.remove("token")}
+              onClick={() => {handleAuth(false); Cookies.remove("token")}}
             >
               Logout
             </Link>
@@ -66,12 +70,15 @@ const StyledNavbar = styled.nav`
     display: flex;
     justify-content: flex-end;
     animation: fadeIn ease 0.5s;
-    max-width: 100vw;
-    overflow-x: auto;
+
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: scroll !important;
 
     & > a {
       padding: 16px 18px;
       display: inline-block;
+      min-width: max-content;
 
       color: #fff;
       font-weight: bold;
@@ -90,6 +97,19 @@ const StyledNavbar = styled.nav`
       &:focus {
         outline: none;
         background-color: #444;
+      }
+    }
+
+    @media (max-width: 437px) {
+      justify-content: flex-start;
+
+      /* scroll height */
+      &::-webkit-scrollbar {
+        height: 3px;
+      }
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        background: #555;
       }
     }
   }

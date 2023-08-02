@@ -6,10 +6,10 @@ import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/footer/Footer";
 import styled from "styled-components";
 
-export default function MainLayout() {
+export default function MainLayout({ isAuth, handleAuth }) {
   return (
     <StyledMainLayout>
-      <Navbar />
+      <Navbar isAuth={isAuth} handleAuth={handleAuth} />
       <Outlet />
       <Footer />
     </StyledMainLayout>

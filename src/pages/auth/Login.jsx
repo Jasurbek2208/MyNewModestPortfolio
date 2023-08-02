@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { myAxios } from "../../service/axios";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login({ handleAuth }) {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -16,14 +16,16 @@ export default function Login() {
         name: e.target.username.value,
         password: e.target.password.value,
       };
+
       const response = await myAxios.post("/auth/login", data);
-      console.log(response);
       Cookies.set("token", response.data.access_token, { expires: 22 });
+      handleAuth(true);
 
       toast.success("Successfull logged!");
       navigate("/");
     } catch (error) {
-      console.log(error);
+      handleAuth(false);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -46,7 +48,7 @@ export default function Login() {
           <input
             type="password"
             name="password"
-            placeholder="Enter your Project Link"
+            placeholder="Enter your password"
             id="password"
             required
           />

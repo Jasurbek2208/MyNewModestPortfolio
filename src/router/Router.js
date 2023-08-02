@@ -17,6 +17,7 @@ import Login from '../pages/auth/Login';
 
 export default function Router() {
   const [isOnline, setIsOnline] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
 
   function handleOnline(isFirstCall = false) {
     if (navigator.onLine) {
@@ -30,16 +31,25 @@ export default function Router() {
     }
   }
 
+  function handleAuth(param) {
+    setIsAuth(param);
+  }
+
   useEffect(() => {
     handleOnline(true);
 
     async function checkUser() {
       try {
         const response = await myAxios.get('/auth/userme')
-        if (response.status !== 200) {
+
+        if (response.status === 200) {
+          handleAuth(true)
+        } else {
+          handleAuth(false)
           Cookies.remove('token')
         }
       } catch {
+        handleAuth(false)
         Cookies.remove('token')
       }
     }
@@ -55,14 +65,14 @@ export default function Router() {
 
   return (
     <Routes>
-      <Route element={<MainLayout />}>
+      <Route element={<MainLayout isAuth={isAuth} handleAuth={handleAuth} />}>
         <Route path="home" element={<Home />} />
         <Route path="portfolios" element={<Portfolio />} />
-        {Cookies.get('token') ?
+        {isAuth ?
           <Route path="add-post" element={<AddPost />} />
           :
           <>
-            <Route path="login" element={<Login />} />
+            <Route path="login" element={<Login handleAuth={handleAuth} />} />
             <Route path="contact" element={<Contact />} />
           </>
         }
