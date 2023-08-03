@@ -1,24 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import { Routes, Route, Navigate } from "react-router-dom";
+import React, { Suspense, lazy, useEffect, useState } from 'react'
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux"
 import { myAxios } from '../service/axios';
 import toast from "react-hot-toast";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 // Layout
 import MainLayout from '../layouts/MainLayout'
+// Loader
+import Loader from '../components/loader/Loader';
 
-// Pages
-import Home from '../pages/Home';
-import Contact from '../pages/Contact';
-import Portfolio from '../pages/Portfolio';
-// Admin pages
-import AddPost from '../pages/admin/AddPost';
-import Login from '../pages/auth/Login';
+// Pages - lazy
+const Home = lazy(() => import('../pages/Home'))
+const Contact = lazy(() => import('../pages/Contact'))
+const Portfolio = lazy(() => import('../pages/Portfolio'))
+// Admin pages - lazy
+const AddPost = lazy(() => import('../pages/admin/AddPost'))
+const Login = lazy(() => import('../pages/auth/Login'))
 
 export default function Router() {
-  const [isOnline, setIsOnline] = useState(true);
-  const [isAuth, setIsAuth] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation().pathname;
 
+  const [isOnline, setIsOnline] = useState(true);
+  const { isAuth } = useSelector(store => store);
+
+  // Checking device internet connection
   function handleOnline(isFirstCall = false) {
     if (navigator.onLine) {
       if (isOnline && !isFirstCall) {
@@ -31,26 +39,26 @@ export default function Router() {
     }
   }
 
-  function handleAuth(param) {
-    setIsAuth(param);
-  }
-
   useEffect(() => {
+
     handleOnline(true);
 
     async function checkUser() {
       try {
+        if (!Cookies.get("token")) {
+          dispatch({ type: 'LOGOUT' })
+          return
+        }
+
         const response = await myAxios.get('/auth/userme')
 
         if (response.status === 200) {
-          handleAuth(true)
+          dispatch({ type: 'LOGIN' })
         } else {
-          handleAuth(false)
-          Cookies.remove('token')
+          dispatch({ type: 'LOGOUT' })
         }
       } catch {
-        handleAuth(false)
-        Cookies.remove('token')
+        dispatch({ type: 'LOGOUT' })
       }
     }
     checkUser();
@@ -63,21 +71,28 @@ export default function Router() {
     };
   }, []);
 
+  // Navigate to latest page in first render
+  useEffect(() => {
+    navigate(location);
+  }, [])
+
   return (
-    <Routes>
-      <Route element={<MainLayout isAuth={isAuth} handleAuth={handleAuth} />}>
-        <Route path="home" element={<Home />} />
-        <Route path="portfolios" element={<Portfolio />} />
-        {isAuth ?
-          <Route path="add-post" element={<AddPost />} />
-          :
-          <>
-            <Route path="login" element={<Login handleAuth={handleAuth} />} />
-            <Route path="contact" element={<Contact />} />
-          </>
-        }
-        <Route path="*" element={<Navigate to="/home" />} />
-      </Route>
-    </Routes>
+    <Suspense fallback={<Loader />}>
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route path="home" element={<Home />} />
+          <Route path="portfolios" element={<Portfolio />} />
+          {isAuth ?
+            <Route path="add-post" element={<AddPost />} />
+            :
+            <>
+              <Route path="login" element={<Login />} />
+              <Route path="contact" element={<Contact />} />
+            </>
+          }
+          <Route path="*" element={<Navigate to="/home" />} />
+        </Route>
+      </Routes>
+    </Suspense>
   )
 }

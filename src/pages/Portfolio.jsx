@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { myAxios } from "../service/axios";
 import styled from "styled-components";
+// Loader
+import Loader from "../components/loader/Loader";
 
 export default function Portfolio() {
   const [portfolios, setPortfolios] = useState(null);
@@ -34,6 +36,7 @@ export default function Portfolio() {
     const newIndex = currentIndex + 1;
     setCurrentIndex(newIndex % portfolios?.length);
   };
+
   return (
     <StyledPortfolio>
       {error || portfolios?.length === 0 ? (
@@ -45,9 +48,7 @@ export default function Portfolio() {
           </h5>
         </div>
       ) : portfolios === null ? (
-        <div className="loading__wrapper">
-          <div className="loading"></div>
-        </div>
+        <Loader />
       ) : (
         <div className="carousel__wrapper">
           <img

@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import styled from "styled-components";
+// Loader
+import Loader from "../components/loader/Loader";
 
 export default function Contact() {
   const mapRef = useRef();
@@ -99,11 +101,7 @@ export default function Contact() {
           {/* Map */}
           <div className="mapouter">
             <div className="gmap_canvas">
-              {mapLoading ? (
-                <div className="loading__wrapper">
-                  <div className="loading"></div>
-                </div>
-              ) : null}
+              {mapLoading && <Loader />}
               <iframe
                 title="google map"
                 ref={mapRef}

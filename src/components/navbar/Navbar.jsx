@@ -1,15 +1,13 @@
-import Cookies from "js-cookie";
 import React from "react";
-import { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { Link, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
-export default function Navbar({ isAuth, handleAuth }) {
+export default function Navbar() {
   const location = useLocation().pathname;
-  useEffect(()=>{
-console.log(isAuth);
+  const { isAuth } = useSelector((store) => store);
+  const dispatch = useDispatch();
 
-},[isAuth])
   return (
     <StyledNavbar id="navbar">
       <div className="container">
@@ -36,7 +34,7 @@ console.log(isAuth);
             <Link
               to="/"
               className={"text" + (location === "/logout" ? "--active" : "")}
-              onClick={() => {handleAuth(false); Cookies.remove("token")}}
+              onClick={() => dispatch({ type: "LOGOUT" })}
             >
               Logout
             </Link>

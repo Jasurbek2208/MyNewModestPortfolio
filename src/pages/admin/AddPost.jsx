@@ -4,24 +4,49 @@ import toast from "react-hot-toast";
 import styled from "styled-components";
 
 export default function AddPost() {
-  const [img, setImg] = useState("");
+  const [image, setImage] = useState("");
 
+  // Get image url 32 chars name
+  const getImageURLName = (img) => img.substring(0, 32) + "...";
+
+  // Handel image imput change
+  function handleImageSelect(e) {
+    // Check if any file was selected
+    if (e.target.files && e.target.files.length > 0) {
+      const selectedFile = e.target.files[0];
+
+      // Check if the selected file is an image
+      if (selectedFile.type.startsWith("image/")) {
+        // Create a FileReader to read the file
+        const reader = new FileReader();
+        reader.onload = function ({ target: { result } }) {
+          setImage(result);
+        };
+
+        reader.readAsDataURL(selectedFile);
+      } else {
+        toast.error("Please select an image file.");
+      }
+    }
+  }
+
+  // Post portfolio to server
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const data = {
-        img,
+        img: image,
         title: e.target.title.value,
         project_link: e.target.projectLink.value,
         github_link: e.target.githubLink.value || "",
       };
 
-      const response = await myAxios.post('/portfolio', data)
+      const response = await myAxios.post("/portfolio", data);
 
       toast.success(response.data.message);
       document.getElementById("form").reset();
-      setImg("");
+      setImage("");
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -49,12 +74,12 @@ export default function AddPost() {
               id="fileInput"
               name="fileInput"
               accept=".jpg, .jpeg, .png"
-              onChange={(e) => setImg(e.target.value)}
+              onChange={handleImageSelect}
               required
             />
             <div className="input-vizual">
               <div>Click</div>
-              <div>{img || "File not selected!"}</div>
+              <div>{image ? getImageURLName(image) : "File not selected!"}</div>
             </div>
           </div>
         </div>
@@ -63,7 +88,7 @@ export default function AddPost() {
           <input
             type="text"
             name="projectLink"
-            placeholder="Enter your Project Link"
+            placeholder="Enter your project link"
             id="projectLink"
             required
           />
@@ -73,11 +98,12 @@ export default function AddPost() {
           <input
             type="text"
             name="githubLink"
-            placeholder="Enter your Github Link"
+            placeholder="Enter your github link"
             id="githubLink"
           />
         </div>
         <div className="button__wrapper">
+          <button type="button" onClick={() => toast.success('Coming soon...!')}>Preview</button>
           <button type="submit">Send</button>
         </div>
       </form>
@@ -191,6 +217,7 @@ const StyledAddPost = styled.main`
     .button__wrapper {
       display: flex;
       justify-content: flex-end;
+      gap: 20px;
 
       button {
         cursor: pointer;

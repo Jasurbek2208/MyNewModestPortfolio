@@ -1,12 +1,13 @@
-import Cookies from "js-cookie";
 import React from "react";
 import toast from "react-hot-toast";
 import styled from "styled-components";
 import { myAxios } from "../../service/axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux"
 
-export default function Login({ handleAuth }) {
+export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,13 +19,12 @@ export default function Login({ handleAuth }) {
       };
 
       const response = await myAxios.post("/auth/login", data);
-      Cookies.set("token", response.data.access_token, { expires: 22 });
-      handleAuth(true);
+      dispatch({ type: 'LOGIN', access_token: response.data.access_token })
 
       toast.success("Successfull logged!");
       navigate("/");
     } catch (error) {
-      handleAuth(false);
+      dispatch({ type: 'LOGOUT' })
       toast.error(error.response.data.message);
     }
   };
