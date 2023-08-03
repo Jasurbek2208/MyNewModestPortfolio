@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux"
 import { myAxios } from '../service/axios';
@@ -11,12 +11,12 @@ import MainLayout from '../layouts/MainLayout'
 import Loader from '../components/loader/Loader';
 
 // Pages - lazy
-const Home = lazy(() => import('../pages/Home'))
-const Contact = lazy(() => import('../pages/Contact'))
-const Portfolio = lazy(() => import('../pages/Portfolio'))
+import Home from '../pages/Home'
+import Contact from '../pages/Contact'
+import Portfolio from '../pages/Portfolio'
+import Login from '../pages/auth/Login'
 // Admin pages - lazy
-const AddPost = lazy(() => import('../pages/admin/AddPost'))
-const Login = lazy(() => import('../pages/auth/Login'))
+import AddPost from '../pages/admin/AddPost'
 
 export default function Router() {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ export default function Router() {
   const location = useLocation().pathname;
 
   const [isOnline, setIsOnline] = useState(true);
-  const { isAuth } = useSelector(store => store);
+  const { isAuth, isLoading } = useSelector(store => store);
 
   // Checking device internet connection
   function handleOnline(isFirstCall = false) {
@@ -40,10 +40,11 @@ export default function Router() {
   }
 
   useEffect(() => {
-
     handleOnline(true);
 
     async function checkUser() {
+      dispatch({ type: 'SWITCH_LOADING', isLoading: true })
+
       try {
         if (!Cookies.get("token")) {
           dispatch({ type: 'LOGOUT' })
@@ -59,6 +60,8 @@ export default function Router() {
         }
       } catch {
         dispatch({ type: 'LOGOUT' })
+      } finally {
+        dispatch({ type: 'SWITCH_LOADING', isLoading: false })
       }
     }
     checkUser();
@@ -73,11 +76,14 @@ export default function Router() {
 
   // Navigate to latest page in first render
   useEffect(() => {
-    navigate(location);
+    navigate(location === '/' ? '/home' : location);
   }, [])
 
   return (
-    <Suspense fallback={<Loader />}>
+    isLoading
+      ?
+      <Loader />
+      :
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="home" element={<Home />} />
@@ -93,6 +99,5 @@ export default function Router() {
           <Route path="*" element={<Navigate to="/home" />} />
         </Route>
       </Routes>
-    </Suspense>
   )
 }

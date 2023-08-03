@@ -2,7 +2,8 @@ import Cookies from "js-cookie";
 import { createStore } from "redux"
 
 const initialState = {
-  isAuth: false
+  isAuth: false,
+  isLoading: false
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -15,6 +16,8 @@ const rootReducer = (state = initialState, action) => {
     case 'LOGOUT':
       Cookies.remove("token");
       return { ...state, isAuth: false }
+    case 'SWITCH_LOADING':
+      return { ...state, isLoading: action.isLoading }
     default:
       return state
   }

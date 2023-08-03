@@ -3,8 +3,13 @@ import { myAxios } from "../../service/axios";
 import toast from "react-hot-toast";
 import styled from "styled-components";
 
+// Components
+import PostPreview from "../../components/postPreview/PostPreview";
+
 export default function AddPost() {
+  const [data, setData] = useState({ onClick: closePreviewModal });
   const [image, setImage] = useState("");
+  const [isPreview, setIsPreview] = useState(false);
 
   // Get image url 32 chars name
   const getImageURLName = (img) => img.substring(0, 32) + "...";
@@ -21,6 +26,7 @@ export default function AddPost() {
         const reader = new FileReader();
         reader.onload = function ({ target: { result } }) {
           setImage(result);
+          setData((p) => ({ ...p, img: result }));
         };
 
         reader.readAsDataURL(selectedFile);
@@ -52,6 +58,15 @@ export default function AddPost() {
     }
   };
 
+  function handleInput(e) {
+    setData((p) => ({ ...p, [e.target.name]: e.target.value }));
+  }
+
+  // Close Preview Modal
+  function closePreviewModal() {
+    setIsPreview(false);
+  }
+
   return (
     <StyledAddPost>
       <form onSubmit={handleSubmit} id="form">
@@ -63,6 +78,7 @@ export default function AddPost() {
             name="title"
             placeholder="Enter your title"
             id="title"
+            onChange={handleInput}
             required
           />
         </div>
@@ -90,6 +106,7 @@ export default function AddPost() {
             name="projectLink"
             placeholder="Enter your project link"
             id="projectLink"
+            onChange={handleInput}
             required
           />
         </div>
@@ -100,13 +117,18 @@ export default function AddPost() {
             name="githubLink"
             placeholder="Enter your github link"
             id="githubLink"
+            onChange={handleInput}
           />
         </div>
         <div className="button__wrapper">
-          <button type="button" onClick={() => toast.success('Coming soon...!')}>Preview</button>
+          <button type="button" onClick={() => setIsPreview(true)}>
+            Preview
+          </button>
           <button type="submit">Send</button>
         </div>
       </form>
+
+      {isPreview && <PostPreview data={data} />}
     </StyledAddPost>
   );
 }
