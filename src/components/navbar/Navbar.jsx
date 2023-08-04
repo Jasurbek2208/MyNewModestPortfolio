@@ -98,13 +98,12 @@ const StyledNavbar = styled.nav`
       }
     }
 
-    @media (max-width: 460px) {
+    @media (max-width: 450px) {
       padding: 0px !important;
       justify-content: flex-start;
 
       & > a {
-        padding: 17px 14px 14px 14px;
-        font-size: 16.5px;
+        padding: 18px 15px 15px 15px;
 
         &.text--active {
           font-weight: bolder;

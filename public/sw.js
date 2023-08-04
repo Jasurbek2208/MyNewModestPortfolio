@@ -6,7 +6,9 @@ const assetUrls = [
     '../src/index.js',
     '../src/App.js',
     '../src/store/index.js',
-    '../src/router/Router.js'
+    '../src/router/Router.js',
+    '../src/layouts/MainLayout.jsx',
+    '../src/components/loader/Loader.jsx',
 ];
 
 self.addEventListener('install', async () => {
