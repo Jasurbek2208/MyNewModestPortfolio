@@ -25,7 +25,7 @@ export default function Login() {
       navigate("/");
     } catch (error) {
       dispatch({ type: 'LOGOUT' })
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || error?.message);
     }
   };
 

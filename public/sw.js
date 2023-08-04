@@ -4,7 +4,9 @@ const assetUrls = [
     '/',
     './index.html',
     '../src/index.js',
-    '../src/App.js'
+    '../src/App.js',
+    '../src/store/index.js',
+    '../src/router/Router.js'
 ];
 
 self.addEventListener('install', async () => {
@@ -32,10 +34,14 @@ self.addEventListener('activate', async () => {
 self.addEventListener('fetch', event => {
     const { request } = event
 
-    if (!navigator.onLine && !request.url.includes('https://shomaqsudov-portfolio-backend')) {
-        event.respondWith(cacheFirst(request))
+    if (navigator.onLine) {
+        event.respondWith(networkFirst(request))
     } else {
-        // event.respondWith(networkFirst(request))
+        if (request.url.includes('https://shomaqsudov-portfolio-backend') && !request.url.includes('/portfolios')) {
+            event.respondWith(networkFirst(request))
+        } else {
+            event.respondWith(cacheFirst(request))
+        }
     }
 })
 
@@ -48,9 +54,12 @@ async function networkFirst(request) {
     const cache = await caches.open(dynamicCacheName)
     try {
         const response = await fetch(request)
-        await cache.put(request, response.clone())
+        if (response && response.status === 200 && request.method === 'GET') {
+            await cache.put(request, response.clone())
+        }
         return response
     } catch (e) {
+        console.log(e);
         const cached = await cache.match(request)
         return cached ?? await caches.match('/index.html')
     }

@@ -5,16 +5,20 @@ import styled from "styled-components";
 
 // Components
 import PostPreview from "../../components/postPreview/PostPreview";
+import { useEffect } from "react";
 
 export default function AddPost() {
-  const [data, setData] = useState({ onClick: closePreviewModal });
   const [image, setImage] = useState("");
   const [isPreview, setIsPreview] = useState(false);
+  const [data, setData] = useState({
+    onClick: togglePreviewModal,
+    isDisble: true,
+  });
 
   // Get image url 32 chars name
   const getImageURLName = (img) => img.substring(0, 32) + "...";
 
-  // Handel image imput change
+  // Handel image input change
   function handleImageSelect(e) {
     // Check if any file was selected
     if (e.target.files && e.target.files.length > 0) {
@@ -54,7 +58,8 @@ export default function AddPost() {
       document.getElementById("form").reset();
       setImage("");
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.log(error);
+      toast.error(error?.response?.data?.message || error?.message);
     }
   };
 
@@ -63,8 +68,29 @@ export default function AddPost() {
   }
 
   // Close Preview Modal
-  function closePreviewModal() {
-    setIsPreview(false);
+  function togglePreviewModal(param) {
+    setIsPreview(param);
+  }
+
+  // Checking data validation on preview
+  useEffect(() => {
+    onPreview();
+  }, [data.img, data.title, data.projectLink]);
+
+  // On preview button disable or not logics
+  function onPreview() {
+    if (data.img && data.title && data.projectLink) {
+      setData((p) => ({ ...p, isDisble: false }));
+    } else {
+      setData((p) => ({ ...p, isDisble: true }));
+    }
+  }
+
+  // Cleare form values
+  function clearData() {
+    setImage("")
+    document.getElementById('form').reset()
+    setData(p => ({ ...p, img: "", title: "", projectLink: "", githubLink: "" }))
   }
 
   return (
@@ -121,7 +147,14 @@ export default function AddPost() {
           />
         </div>
         <div className="button__wrapper">
-          <button type="button" onClick={() => setIsPreview(true)}>
+          <button type="button" onClick={clearData}>
+            Clear
+          </button>
+          <button
+            type="button"
+            disabled={data.isDisble}
+            onClick={() => togglePreviewModal(true)}
+          >
             Preview
           </button>
           <button type="submit">Send</button>
@@ -134,7 +167,7 @@ export default function AddPost() {
 }
 
 const StyledAddPost = styled.main`
-  padding: 40px 14px 30px;
+  padding: 26px 14px 30px;
   display: grid;
   place-items: center;
 
@@ -239,12 +272,12 @@ const StyledAddPost = styled.main`
     .button__wrapper {
       display: flex;
       justify-content: flex-end;
-      gap: 20px;
+      gap: 10px;
 
       button {
         cursor: pointer;
         padding: 10px 12px;
-        width: 150px;
+        width: 100%;
 
         color: #fff;
         font-weight: 600;
@@ -258,6 +291,18 @@ const StyledAddPost = styled.main`
         &:focus {
           outline: none;
           box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 4px #333;
+        }
+
+        &:disabled {
+          color: #ffffffc3;
+          background-color: #333333c3;
+
+          &:hover,
+          &:focus {
+            cursor: no-drop;
+            outline: none;
+            box-shadow: none;
+          }
         }
       }
     }

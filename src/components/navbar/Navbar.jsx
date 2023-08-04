@@ -98,8 +98,19 @@ const StyledNavbar = styled.nav`
       }
     }
 
-    @media (max-width: 437px) {
+    @media (max-width: 460px) {
+      padding: 0px !important;
       justify-content: flex-start;
+
+      & > a {
+        padding: 17px 14px 14px 14px;
+        font-size: 16.5px;
+
+        &.text--active {
+          font-weight: bolder;
+          border-bottom: 3px solid #fff;
+        }
+      }
 
       /* scroll height */
       &::-webkit-scrollbar {

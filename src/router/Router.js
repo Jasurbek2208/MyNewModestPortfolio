@@ -39,8 +39,21 @@ export default function Router() {
     }
   }
 
+  // Device internet connection watcher
   useEffect(() => {
     handleOnline(true);
+
+    window.addEventListener("online", () => handleOnline(false));
+    window.addEventListener("offline", () => handleOnline(false));
+    return () => {
+      window.removeEventListener("online", () => handleOnline(false));
+      window.removeEventListener("offline", () => handleOnline(false));
+    };
+  }, []);
+
+  // Checking user is admin on device internet connected
+  useEffect(() => {
+    if (!isOnline) return;
 
     async function checkUser() {
       dispatch({ type: 'SWITCH_LOADING', isLoading: true })
@@ -65,14 +78,7 @@ export default function Router() {
       }
     }
     checkUser();
-
-    window.addEventListener("online", () => handleOnline(false));
-    window.addEventListener("offline", () => handleOnline(false));
-    return () => {
-      window.removeEventListener("online", () => handleOnline(false));
-      window.removeEventListener("offline", () => handleOnline(false));
-    };
-  }, []);
+  }, [isOnline])
 
   // Navigate to latest page in first render
   useEffect(() => {

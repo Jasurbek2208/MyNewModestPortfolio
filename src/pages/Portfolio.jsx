@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { myAxios } from "../service/axios";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 // Loader
 import Loader from "../components/loader/Loader";
 
@@ -38,7 +38,7 @@ export default function Portfolio() {
   };
 
   return (
-    <StyledPortfolio>
+    <StyledPortfolio img={portfolios?.[currentIndex]?.img || ""}>
       {error || portfolios?.length === 0 ? (
         <div className="error-content">
           <h1 className="error-content-text">Portfolios not found!</h1>
@@ -51,11 +51,10 @@ export default function Portfolio() {
         <Loader />
       ) : (
         <div className="carousel__wrapper">
-          <img
+          <div
             className="carousel__image"
-            src={portfolios[currentIndex]?.img}
             alt={portfolios[currentIndex]?.title}
-          />
+          ></div>
           <div className="carousel__content">
             <h3 className="carousel__title">
               {portfolios[currentIndex]?.title}
@@ -91,7 +90,7 @@ export default function Portfolio() {
 }
 
 const StyledPortfolio = styled.div`
-  padding: 40px 16px 0px;
+  padding: 0px 16px 0px;
 
   .error-content {
     height: calc(100vh - 50px - 53px - 80px);
@@ -106,8 +105,9 @@ const StyledPortfolio = styled.div`
     padding: 0 0 10px;
     position: relative;
     margin: 0 auto;
-    max-width: 400px;
-    min-width: 280px;
+    max-width: 360px;
+    min-width: 300px;
+    height: 400px;
 
     display: flex;
     align-items: flex-start;
@@ -122,12 +122,14 @@ const StyledPortfolio = styled.div`
 
     .carousel__image {
       width: 100%;
-      height: 250px;
+      height: 235px;
+      background: ${({ img }) => css`url(${img}) no-repeat center`};
+      background-size: cover;
     }
 
     .carousel__content {
       padding: 7px 12px;
-      max-width: 400px;
+      max-width: 360px;
       min-width: 300px;
       width: 100%;
 
@@ -139,7 +141,7 @@ const StyledPortfolio = styled.div`
         margin: 0;
         color: #333;
         font-weight: 600;
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         text-align: left;
       }
 

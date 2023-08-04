@@ -66,6 +66,7 @@ const StyledMain = styled.header`
 
       &:hover,
       &:focus {
+        outline: none;
         transform: scale(110%);
       }
 

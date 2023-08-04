@@ -1,13 +1,13 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export default function PostPreview({ data: { img, title, projectLink, githubLink, onClick } }) {
   return (
-    <StyledPostPreview>
-      <div className="background-modal" onClick={onClick}></div>
+    <StyledPostPreview img={img}>
+      <div className="background-modal" onClick={() => onClick(false)}></div>
 
       <div className="modal">
-        <img className="image" src={img} alt={title} />
+        <div className="image" alt={title}></div>
 
         <div className="content">
           <h1 className="title">{title}</h1>
@@ -29,7 +29,7 @@ export default function PostPreview({ data: { img, title, projectLink, githubLin
       <button
         type="button"
         className="close-modal-button link"
-        onClick={onClick}
+        onClick={() => onClick(false)}
       >
         Close Preview
       </button>
@@ -46,15 +46,15 @@ const StyledPostPreview = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   z-index: 10;
 
   & > .modal {
     z-index: 13;
     padding: 0 0 10px;
     width: 100%;
-    height: 380px;
-    max-width: 340px;
+    height: 410px;
+    max-width: 350px;
     min-width: 280px;
 
     display: flex;
@@ -70,7 +70,9 @@ const StyledPostPreview = styled.div`
 
     .image {
       width: 100%;
-      height: 250px;
+      height: 450px;
+      background: ${({img}) => css`url(${img}) no-repeat center`};
+      background-size: cover;
     }
 
     .content {
@@ -78,7 +80,7 @@ const StyledPostPreview = styled.div`
       padding: 7px 12px;
 
       width: 100%;
-      height: 100%;
+      height: 400px;
       max-width: 400px;
       min-width: 300px;
 
@@ -90,7 +92,7 @@ const StyledPostPreview = styled.div`
       .title {
         color: #333;
         font-weight: 600;
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         text-align: left;
       }
 
@@ -133,11 +135,12 @@ const StyledPostPreview = styled.div`
   }
 
   .close-modal-button {
-    padding: 10px 17px;
+    padding: 14px 15px;
     width: 100%;
     max-width: 340px;
     min-width: 280px;
     font-weight: 800;
+    font-size: 14px;
     z-index: 13;
   }
 `;
