@@ -3,14 +3,18 @@ import toast from "react-hot-toast";
 import styled from "styled-components";
 import { myAxios } from "../../service/axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux"
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 export default function Login() {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const data = {
@@ -19,13 +23,16 @@ export default function Login() {
       };
 
       const response = await myAxios.post("/auth/login", data);
-      dispatch({ type: 'LOGIN', access_token: response.data.access_token })
+      dispatch({ type: "LOGIN", access_token: response.data.access_token });
 
       toast.success("Successfull logged!");
       navigate("/");
     } catch (error) {
-      dispatch({ type: 'LOGOUT' })
+      dispatch({ type: "LOGOUT" });
+      console.log(error);
       toast.error(error?.response?.data?.message || error?.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,7 +61,7 @@ export default function Login() {
           />
         </div>
         <div className="button__wrapper">
-          <button type="submit">Send</button>
+          <button type="submit" disabled={loading}>Send</button>
         </div>
       </form>
     </StyledLogin>

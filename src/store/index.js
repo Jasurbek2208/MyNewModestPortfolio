@@ -3,7 +3,7 @@ import { createStore } from "redux"
 
 const initialState = {
   isAuth: false,
-  isLoading: false
+  isLoading: true
 }
 
 const rootReducer = (state = initialState, action) => {

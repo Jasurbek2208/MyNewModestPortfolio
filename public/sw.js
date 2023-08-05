@@ -14,7 +14,7 @@ const assetUrls = [
 self.addEventListener('install', async () => {
     try {
         const cache = await caches.open(dynamicCacheName);
-        await cache.addAll(assetUrls);
+        await cache.addAll(assetUrls); 
     } catch (error) {
         console.error('Service worker: Cache installation failed', error);
     }
@@ -35,15 +35,12 @@ self.addEventListener('activate', async () => {
 
 self.addEventListener('fetch', event => {
     const { request } = event
+    const url = new URL(request.url)
 
-    if (navigator.onLine) {
-        event.respondWith(networkFirst(request))
+    if (url.origin === location.origin) {
+        event.respondWith(cacheFirst(request))
     } else {
-        if (request.url.includes('https://shomaqsudov-portfolio-backend') && !request.url.includes('/portfolios')) {
-            event.respondWith(networkFirst(request))
-        } else {
-            event.respondWith(cacheFirst(request))
-        }
+        event.respondWith(networkFirst(request))
     }
 })
 
@@ -56,12 +53,12 @@ async function networkFirst(request) {
     const cache = await caches.open(dynamicCacheName)
     try {
         const response = await fetch(request)
-        if (response && response.status === 200 && request.method === 'GET') {
+        
+        if (response && response.status === 200 && request.method === 'GET' && !response.url.includes('/portfolios')) {
             await cache.put(request, response.clone())
         }
         return response
     } catch (e) {
-        console.log(e);
         const cached = await cache.match(request)
         return cached ?? await caches.match('/index.html')
     }

@@ -43,7 +43,7 @@ export default function AddPost() {
   // Post portfolio to server
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+      
     try {
       const data = {
         img: image,
@@ -88,9 +88,15 @@ export default function AddPost() {
 
   // Cleare form values
   function clearData() {
-    setImage("")
-    document.getElementById('form').reset()
-    setData(p => ({ ...p, img: "", title: "", projectLink: "", githubLink: "" }))
+    setImage("");
+    document.getElementById("form").reset();
+    setData((p) => ({
+      ...p,
+      img: "",
+      title: "",
+      projectLink: "",
+      githubLink: "",
+    }));
   }
 
   return (

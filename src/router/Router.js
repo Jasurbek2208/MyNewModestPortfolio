@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux"
+import { useRoutes } from "react-router-dom";
 import { myAxios } from '../service/axios';
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
@@ -10,18 +10,11 @@ import MainLayout from '../layouts/MainLayout'
 // Loader
 import Loader from '../components/loader/Loader';
 
-// Pages - lazy
-import Home from '../pages/Home'
-import Contact from '../pages/Contact'
-import Portfolio from '../pages/Portfolio'
-import Login from '../pages/auth/Login'
-// Admin pages - lazy
-import AddPost from '../pages/admin/AddPost'
+// Routes
+import { userRoutes, adminRoutes } from './constants';
 
 export default function Router() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const location = useLocation().pathname;
 
   const [isOnline, setIsOnline] = useState(true);
   const { isAuth, isLoading } = useSelector(store => store);
@@ -56,8 +49,6 @@ export default function Router() {
     if (!isOnline) return;
 
     async function checkUser() {
-      dispatch({ type: 'SWITCH_LOADING', isLoading: true })
-
       try {
         if (!Cookies.get("token")) {
           dispatch({ type: 'LOGOUT' })
@@ -80,30 +71,7 @@ export default function Router() {
     checkUser();
   }, [isOnline])
 
-  // Navigate to latest page in first render
-  useEffect(() => {
-    navigate(location === '/' ? '/home' : location);
-  }, [])
 
-  return (
-    isLoading
-      ?
-      <Loader />
-      :
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="home" element={<Home />} />
-          <Route path="portfolios" element={<Portfolio />} />
-          {isAuth ?
-            <Route path="add-post" element={<AddPost />} />
-            :
-            <>
-              <Route path="login" element={<Login />} />
-              <Route path="contact" element={<Contact />} />
-            </>
-          }
-          <Route path="*" element={<Navigate to="/home" />} />
-        </Route>
-      </Routes>
-  )
+  const element = useRoutes(isAuth ? adminRoutes : userRoutes);
+  return isLoading ? <Loader /> : <MainLayout>{element}</MainLayout>
 }

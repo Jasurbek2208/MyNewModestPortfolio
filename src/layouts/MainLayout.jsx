@@ -1,16 +1,15 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
 
 // Components
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/footer/Footer";
 import styled from "styled-components";
 
-export default function MainLayout() {
+export default function MainLayout({ children }) {
   return (
     <StyledMainLayout>
       <Navbar />
-      <Outlet />
+      {children}
       <Footer />
     </StyledMainLayout>
   );

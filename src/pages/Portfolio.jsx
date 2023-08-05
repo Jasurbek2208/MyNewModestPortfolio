@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { myAxios } from "../service/axios";
 import styled, { css } from "styled-components";
+import { myAxios } from "../service/axios";
+import Cookies from "js-cookie";
+
 // Loader
 import Loader from "../components/loader/Loader";
+
+const portfoliosListName = '$portfolios$list$'
 
 export default function Portfolio() {
   const [portfolios, setPortfolios] = useState(null);
@@ -13,6 +17,7 @@ export default function Portfolio() {
   async function getPortfolios() {
     try {
       const response = await myAxios.get("/portfolios");
+      Cookies.set(portfoliosListName, JSON.stringify(response.data), { expires: 1 });
       setPortfolios(response.data);
 
       setError(false);
@@ -22,7 +27,11 @@ export default function Portfolio() {
   }
 
   useEffect(() => {
-    getPortfolios();
+    if (Cookies.get(portfoliosListName)) {
+      setPortfolios(JSON.parse(Cookies.get(portfoliosListName)));
+    } else {
+      getPortfolios();
+    }
   }, []);
 
   // Carrousel left click
@@ -53,25 +62,25 @@ export default function Portfolio() {
         <div className="carousel__wrapper">
           <div
             className="carousel__image"
-            alt={portfolios[currentIndex]?.title}
+            alt={portfolios?.[currentIndex]?.title}
           ></div>
           <div className="carousel__content">
             <h3 className="carousel__title">
-              {portfolios[currentIndex]?.title}
+              {portfolios?.[currentIndex]?.title}
             </h3>
             <p className="carousel__description">
-              {portfolios[currentIndex]?.description}
+              {portfolios?.[currentIndex]?.description}
             </p>
             <div className="carrousel__link__wrapper">
               <a
                 className="carousel__link"
-                href={portfolios[currentIndex]?.project_link}
+                href={portfolios?.[currentIndex]?.project_link}
               >
                 View Project
               </a>
               <a
                 className="carousel__link"
-                href={portfolios[currentIndex]?.github_link}
+                href={portfolios?.[currentIndex]?.github_link}
               >
                 View GitHub
               </a>
