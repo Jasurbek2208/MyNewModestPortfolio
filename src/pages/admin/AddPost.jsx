@@ -43,20 +43,30 @@ export default function AddPost() {
   // Post portfolio to server
   const handleSubmit = async (e) => {
     e.preventDefault();
-      
+
     try {
       const data = {
-        img: image,
+        file: e.target.fileInput.files[0],
         title: e.target.title.value,
         project_link: e.target.projectLink.value,
         github_link: e.target.githubLink.value || "",
       };
 
-      const response = await myAxios.post("/portfolio", data);
+      const formData = new FormData();
+      for (const key in data) {
+        formData.append(key, data[key]);
+      }
+
+      const response = await myAxios.post("/portfolio", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response);
 
       toast.success(response.data.message);
-      document.getElementById("form").reset();
-      setImage("");
+      // document.getElementById("form").reset();
+      // setImage("");
     } catch (error) {
       console.log(error);
       toast.error(error?.response?.data?.message || error?.message);
@@ -101,7 +111,7 @@ export default function AddPost() {
 
   return (
     <StyledAddPost>
-      <form onSubmit={handleSubmit} id="form">
+      <form onSubmit={handleSubmit} id="form" action="/portfolio" method="post" encType="multipart/form-data">
         <h3>Add post</h3>
         <div className="input__wrapper">
           <label htmlFor="title">Title</label>
