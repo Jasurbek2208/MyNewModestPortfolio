@@ -1,9 +1,9 @@
 import React from "react";
+import styled from "styled-components";
 
 // Components
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/footer/Footer";
-import styled from "styled-components";
 
 export default function MainLayout({ children }) {
   return (

@@ -4,9 +4,9 @@ const assetUrls = [
     '/',
     './index.html',
     '../src/index.js',
-    '../src/App.js',
+    '../src/App.jsx',
     '../src/store/index.js',
-    '../src/router/Router.js',
+    '../src/router/Router.jsx',
     '../src/layouts/MainLayout.jsx',
     '../src/components/loader/Loader.jsx',
 ];
@@ -59,6 +59,7 @@ async function networkFirst(request) {
         }
         return response
     } catch (e) {
+        console.log(e);
         const cached = await cache.match(request)
         return cached ?? await caches.match('/index.html')
     }
