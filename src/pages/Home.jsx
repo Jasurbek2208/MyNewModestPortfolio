@@ -23,7 +23,7 @@ export default function Home() {
           <a href="https://t.me/Joni2208">
             <img className="icon" src={telegram} alt="telegram logo" />
           </a>
-          <a href="https://www.linkedin.com/in/jasurbek-shomaqsudov-09a8b5251">
+          <a href="https://www.linkedin.com/in/jasurbek-shomaqsudov">
             <img className="icon" src={linkedin} alt="linkedin logo" />
           </a>
         </div>
