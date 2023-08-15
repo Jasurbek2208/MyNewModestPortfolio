@@ -62,11 +62,10 @@ export default function AddPost() {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response);
 
       toast.success(response.data.message);
-      // document.getElementById("form").reset();
-      // setImage("");
+      document.getElementById("form").reset();
+      setImage("");
     } catch (error) {
       console.log(error);
       toast.error(error?.response?.data?.message || error?.message);
@@ -111,7 +110,7 @@ export default function AddPost() {
 
   return (
     <StyledAddPost>
-      <form onSubmit={handleSubmit} id="form" action="/portfolio" method="post" encType="multipart/form-data">
+      <form onSubmit={handleSubmit} id="form">
         <h3>Add post</h3>
         <div className="input__wrapper">
           <label htmlFor="title">Title</label>

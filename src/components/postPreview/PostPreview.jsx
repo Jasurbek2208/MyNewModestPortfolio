@@ -62,6 +62,7 @@ const StyledPostPreview = styled.div`
     flex-direction: column;
 
     overflow: hidden;
+    will-change: margin-top, opacity;
     animation: fadeIn ease 0.5s;
 
     border-radius: 15px;

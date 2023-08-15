@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 // Loader
 import Loader from "../components/loader/Loader";
 
-const portfoliosListName = '$portfolios$list$'
+const portfoliosListName = "$portfolios$list$";
 
 export default function Portfolio() {
   const [portfolios, setPortfolios] = useState(null);
@@ -19,7 +19,6 @@ export default function Portfolio() {
       const response = await myAxios.get("/portfolios");
       Cookies.set(portfoliosListName, JSON.stringify(response.data), { expires: 1 });
       setPortfolios(response.data);
-
       setError(false);
     } catch (err) {
       setError(true);
@@ -27,7 +26,7 @@ export default function Portfolio() {
   }
 
   useEffect(() => {
-    if (Cookies.get(portfoliosListName)) {
+    if (!Cookies.get(portfoliosListName)) {
       setPortfolios(JSON.parse(Cookies.get(portfoliosListName)));
     } else {
       getPortfolios();
@@ -79,7 +78,7 @@ export default function Portfolio() {
                 View Project
               </a>
               <a
-                className="carousel__link"
+                className={"carousel__link" + (portfolios?.[currentIndex]?.github_link ? "" : " disabled")}
                 href={portfolios?.[currentIndex]?.github_link}
               >
                 View GitHub
@@ -127,6 +126,7 @@ const StyledPortfolio = styled.div`
     border-radius: 15px;
     border: 2px solid #333;
     animation: fadeIn ease 0.5s;
+    will-change: margin-top, opacity;
     overflow: hidden;
 
     .carousel__image {
@@ -183,10 +183,15 @@ const StyledPortfolio = styled.div`
           border-radius: 10px;
           background-color: #333;
 
-          &:hover,
-          &:focus {
+          &:not(.disabled):hover,
+          &:not(.disabled):focus {
             outline: none;
             box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 4px #333;
+          }
+
+          &.disabled {
+            opacity: .8;
+            cursor: default;
           }
         }
       }

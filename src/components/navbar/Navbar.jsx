@@ -67,6 +67,7 @@ const StyledNavbar = styled.nav`
   & > .container {
     display: flex;
     justify-content: flex-end;
+    will-change: margin-top, opacity;
     animation: fadeIn ease 0.5s;
 
     width: 100% !important;
@@ -85,6 +86,7 @@ const StyledNavbar = styled.nav`
 
       border-bottom: 4px solid #fff0;
       transition: all 0.3s ease-in-out;
+      will-change: margin-top, opacity, background-color, border-bottom, font-weight;
       animation: fadeIn ease 0.5s;
 
       &.text--active {

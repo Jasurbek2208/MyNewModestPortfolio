@@ -15,6 +15,7 @@ const StyledFooter = styled.footer`
   width: 100%;
   padding: 20px 0;
   background-color: #333;
+  will-change: margin-top, opacity;
   animation: fadeInRevers ease 0.5s;
 
   p {
@@ -22,6 +23,7 @@ const StyledFooter = styled.footer`
     color: #fff;
     font-weight: 500;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    will-change: margin-top, opacity;
     animation: fadeInRevers ease 0.5s;
   }
 

@@ -27,6 +27,9 @@ export default function Home() {
             <img className="icon" src={linkedin} alt="linkedin logo" />
           </a>
         </div>
+        <a href="https://cdn.glitch.global/ebe6044e-04ea-46ed-8ac3-98d332171519/Jasurbek_Shomaqsudov_Resume.pdf?v=1692107825264" download="Jasurbek_Shomaqsudov_Resume.pdf" className="download_resume">
+          Download Resume
+        </a>
       </div>
     </StyledMain>
   );
@@ -43,6 +46,7 @@ const StyledMain = styled.header`
     color: #333;
     margin-bottom: 10px;
     text-shadow: 1.3px 1.3px #fff;
+    will-change: margin-top, opacity;
     animation: fadeIn ease 0.8s;
   }
 
@@ -50,33 +54,61 @@ const StyledMain = styled.header`
     font-size: 40px;
     font-weight: normal;
     text-shadow: 1.3px 1.3px #000;
+    will-change: margin-top, opacity;
     animation: fadeIn ease 0.9s;
     transition: 300ms ease-in-out;
   }
 
-  & > .container > .social-media {
-    margin-top: 30px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  & > .container {
+    & > .social-media {
+      margin: 30px 0px 40px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
 
-    & > a {
+      & > a {
+        color: #333;
+        will-change: transform;
+        transition: 300ms ease-in-out;
+
+        &:hover,
+        &:focus {
+          outline: none;
+          transform: scale(110%);
+        }
+
+        & > .icon {
+          max-width: 28px;
+          max-height: 28px;
+          font-size: 2.7rem !important;
+          color: #000000 !important;
+          will-change: margin-top, opacity;
+          animation: fadeIn ease 2s;
+          transition: 300ms ease-in-out;
+        }
+      }
+    }
+
+    & > .download_resume {
+      padding: 10px;
+      
       color: #333;
+      font-size: 18px;
+      font-weight: 700;
+      text-decoration: none;
+
+      border-radius: 6px;
+      border: 2px solid #333;
+      
+      will-change: margin-top, opacity, color, background-color;
+      animation: fadeIn ease 0.9s;
       transition: 300ms ease-in-out;
 
       &:hover,
       &:focus {
+        color: #fff;
         outline: none;
-        transform: scale(110%);
-      }
-
-      & > .icon {
-        max-width: 28px;
-        max-height: 28px;
-        font-size: 2.7rem !important;
-        color: #000000 !important;
-        animation: fadeIn ease 2s;
-        transition: 300ms ease-in-out;
+        background-color: #333;
       }
     }
   }
