@@ -26,7 +26,7 @@ export default function Portfolio() {
   }
 
   useEffect(() => {
-    if (!Cookies.get(portfoliosListName)) {
+    if (Cookies.get(portfoliosListName)) {
       setPortfolios(JSON.parse(Cookies.get(portfoliosListName)));
     } else {
       getPortfolios();
