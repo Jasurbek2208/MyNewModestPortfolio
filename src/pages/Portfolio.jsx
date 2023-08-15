@@ -74,12 +74,14 @@ export default function Portfolio() {
               <a
                 className="carousel__link"
                 href={portfolios?.[currentIndex]?.project_link}
+                target="_blank" rel="noreferrer"
               >
                 View Project
               </a>
               <a
                 className={"carousel__link" + (portfolios?.[currentIndex]?.github_link ? "" : " disabled")}
                 href={portfolios?.[currentIndex]?.github_link}
+                target="_blank" rel="noreferrer"
               >
                 View GitHub
               </a>
