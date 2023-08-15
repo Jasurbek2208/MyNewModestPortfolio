@@ -1,14 +1,22 @@
 const dynamicCacheName = 'd-app-v3';
 
 const assetUrls = [
-    '/',
     './index.html',
     '../src/index.js',
     '../src/App.jsx',
     '../src/store/index.js',
+    '../src/router/constants.js',
     '../src/router/Router.jsx',
     '../src/layouts/MainLayout.jsx',
     '../src/components/loader/Loader.jsx',
+    '../src/components/navbar/Navbar.jsx',
+    '../src/components/footer/Footer.jsx',
+    '../src/components/postPreview/PostPreview.jsx',
+    '../src/pages/Home.jsx',
+    '../src/pages/Contact.jsx',
+    '../src/pages/Portfolio.jsx',
+    '../src/pages/auth/Login.jsx',
+    '../src/pages/admin/AddPost.jsx',
 ];
 
 self.addEventListener('install', async () => {
