@@ -50,8 +50,10 @@ export default function Router() {
 
   // Device internet connection watcher
   useEffect(() => {
-    const lastTime = localStorage.getItem(lastUpdatedTimeName);
-    checkingLastUpdatedTime(lastTime);
+    if(navigator.onLine) {
+      const lastTime = localStorage.getItem(lastUpdatedTimeName);
+      checkingLastUpdatedTime(lastTime);
+    }
 
     handleOnline(true);
 

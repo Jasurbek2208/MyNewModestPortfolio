@@ -1,6 +1,7 @@
 const dynamicCacheName = 'd-app-v3';
 
 const assetUrls = [
+    '/',
     './index.html',
     '../src/App.jsx',
     '../src/index.js',
@@ -60,15 +61,16 @@ async function cacheFirst(request) {
 async function networkFirst(request) {
     const cache = await caches.open(dynamicCacheName)
     try {
+        if(!navigator.onLine) return
+
         const response = await fetch(request)
-        
+
         if (response && response.status === 200 && request.method === 'GET' && !response.url.includes('/portfolios')) {
             await cache.put(request, response.clone())
         }
         return response
-    } catch (e) {
-        console.log(e);
+    } catch {
         const cached = await cache.match(request)
-        return cached ?? await caches.match('./index.html')
+        return cached ?? await caches.match('/')
     }
 }

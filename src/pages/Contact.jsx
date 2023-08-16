@@ -32,8 +32,8 @@ export default function Contact() {
 
       toast.success("Message sent successfully!");
       document.getElementById("form").reset();
-    } catch (err) {
-      console.log(err);
+    } catch {
+      toast.error("Network error!");
     }
   };
 
