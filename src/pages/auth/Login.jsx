@@ -29,7 +29,6 @@ export default function Login() {
       navigate("/");
     } catch (error) {
       dispatch({ type: "LOGOUT" });
-      console.log(error);
       toast.error(error?.response?.data?.message || error?.message);
     } finally {
       setLoading(false);

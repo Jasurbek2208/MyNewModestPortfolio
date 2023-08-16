@@ -3,7 +3,8 @@ import { createStore } from "redux"
 
 const initialState = {
   isAuth: false,
-  isLoading: true
+  isLoading: true,
+  lastTime: false,
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -18,6 +19,8 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, isAuth: false }
     case 'SWITCH_LOADING':
       return { ...state, isLoading: action.isLoading }
+    case 'SWITCH_LAST_UPDATED_TIME':
+      return { ...state, lastTime: action.lastTime }
     default:
       return state
   }

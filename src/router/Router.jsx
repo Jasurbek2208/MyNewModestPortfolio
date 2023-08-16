@@ -13,6 +13,8 @@ import Loader from '../components/loader/Loader';
 // Routes
 import { userRoutes, adminRoutes } from './constants';
 
+const lastUpdatedTimeName = "$last$Updated$Time$Portfolios$";
+
 export default function Router() {
   const dispatch = useDispatch();
 
@@ -32,8 +34,25 @@ export default function Router() {
     }
   }
 
+  // Checking Last Updated Time portfolios
+  async function checkingLastUpdatedTime(lastTime) {
+    try {
+      dispatch({ type: 'SWITCH_LOADING', isLoading: true })
+      
+      const res = await myAxios.post("/checking-last-updated-time", { lastTime })
+
+      dispatch({ type: 'SWITCH_LAST_UPDATED_TIME', lastTime: res.data.newUpdate })
+      localStorage.setItem(lastUpdatedTimeName, res.data.id)
+    } finally {
+      dispatch({ type: 'SWITCH_LOADING', isLoading: false })
+    }
+  }
+
   // Device internet connection watcher
   useEffect(() => {
+    const lastTime = localStorage.getItem(lastUpdatedTimeName);
+    checkingLastUpdatedTime(lastTime);
+
     handleOnline(true);
 
     window.addEventListener("online", () => handleOnline(false));

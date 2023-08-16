@@ -28,6 +28,7 @@ export default function Home() {
           </a>
         </div>
         <a href="https://cdn.glitch.global/ebe6044e-04ea-46ed-8ac3-98d332171519/Jasurbek_Shomaqsudov_Resume.pdf?v=1692107825264" download="Jasurbek_Shomaqsudov_Resume.pdf" className="download_resume">
+          <i className="icon resume-user" />
           Download Resume
         </a>
       </div>
@@ -109,6 +110,10 @@ const StyledMain = styled.header`
         color: #fff;
         outline: none;
         background-color: #333;
+
+        .icon.resume-user {
+          background-color: #fff !important;
+        }
       }
     }
   }

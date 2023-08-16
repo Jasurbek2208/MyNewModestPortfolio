@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import { myAxios } from "../service/axios";
-import Cookies from "js-cookie";
 
 // Loader
 import Loader from "../components/loader/Loader";
@@ -9,6 +9,8 @@ import Loader from "../components/loader/Loader";
 const portfoliosListName = "$portfolios$list$";
 
 export default function Portfolio() {
+  const { lastTime } = useSelector((store) => store);
+
   const [portfolios, setPortfolios] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [error, setError] = useState(false);
@@ -17,17 +19,17 @@ export default function Portfolio() {
   async function getPortfolios() {
     try {
       const response = await myAxios.get("/portfolios");
-      Cookies.set(portfoliosListName, JSON.stringify(response.data), { expires: 1 });
+      localStorage.setItem(portfoliosListName, JSON.stringify(response.data));
       setPortfolios(response.data);
       setError(false);
-    } catch (err) {
+    } catch {
       setError(true);
     }
   }
 
   useEffect(() => {
-    if (Cookies.get(portfoliosListName)) {
-      setPortfolios(JSON.parse(Cookies.get(portfoliosListName)));
+    if (!lastTime) {
+      setPortfolios(JSON.parse(localStorage.getItem(portfoliosListName)));
     } else {
       getPortfolios();
     }
@@ -74,14 +76,19 @@ export default function Portfolio() {
               <a
                 className="carousel__link"
                 href={portfolios?.[currentIndex]?.project_link}
-                target="_blank" rel="noreferrer"
+                target="_blank"
+                rel="noreferrer"
               >
                 View Project
               </a>
               <a
-                className={"carousel__link" + (portfolios?.[currentIndex]?.github_link ? "" : " disabled")}
+                className={
+                  "carousel__link" +
+                  (portfolios?.[currentIndex]?.github_link ? "" : " disabled")
+                }
                 href={portfolios?.[currentIndex]?.github_link}
-                target="_blank" rel="noreferrer"
+                target="_blank"
+                rel="noreferrer"
               >
                 View GitHub
               </a>
@@ -192,7 +199,7 @@ const StyledPortfolio = styled.div`
           }
 
           &.disabled {
-            opacity: .8;
+            opacity: 0.8;
             cursor: default;
           }
         }
