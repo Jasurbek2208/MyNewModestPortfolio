@@ -19,7 +19,6 @@ export default function Portfolio() {
   async function getPortfolios() {
     try {
       const response = await myAxios.get("/portfolios");
-      console.log(response.data);
       localStorage.setItem(portfoliosListName, JSON.stringify(response.data));
       setPortfolios(response.data);
       setError(false);
@@ -29,7 +28,6 @@ export default function Portfolio() {
   }
 
   useEffect(() => {
-    console.log(lastTime);
     if (!lastTime) {
       setPortfolios(JSON.parse(localStorage.getItem(portfoliosListName)));
     } else {

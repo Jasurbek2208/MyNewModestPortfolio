@@ -63,16 +63,13 @@ async function networkFirst(request) {
         if(!navigator.onLine) return
 
         const response = await fetch(request)
-        console.log(response);
 
         if (response && response.status === 200 && response.url.includes('/portfolios')) {
             await cache.put(request, response.clone())
         }
         return response
-    } catch (e) {
-        console.log(e);
+    } catch {
         const cached = await cache.match(request)
-        console.log(cached ?? await caches.match('/index.html'));
         return cached ?? await caches.match('/index.html')
     }
 }
