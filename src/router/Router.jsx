@@ -37,8 +37,6 @@ export default function Router() {
   // Checking Last Updated Time portfolios
   async function checkingLastUpdatedTime(lastTime) {
     try {
-      dispatch({ type: 'SWITCH_LOADING', isLoading: true })
-      
       const res = await myAxios.post("/checking-last-updated-time", { lastTime })
 
       dispatch({ type: 'SWITCH_LAST_UPDATED_TIME', lastTime: res.data.newUpdate })
@@ -86,7 +84,7 @@ export default function Router() {
       } catch {
         dispatch({ type: 'LOGOUT' })
       } finally {
-        dispatch({ type: 'SWITCH_LOADING', isLoading: false })
+        // dispatch({ type: 'SWITCH_LOADING', isLoading: false })
       }
     }
     checkUser();
