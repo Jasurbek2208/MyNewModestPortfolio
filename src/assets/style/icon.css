@@ -1,0 +1,17 @@
+.icon.resume-user {
+  cursor: pointer;
+  display: inline-block;
+  min-width: 32px;
+  min-height: 32px;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-position: center;
+  -webkit-mask-position: center;
+  background-color: #333 !important;
+  mask-image: url("../icons/resume_user.svg");
+  -webkit-mask-image: url("../icons/resume_user.svg");
+  will-change: background-color;
+  transition: 300ms ease-in-out;
+}

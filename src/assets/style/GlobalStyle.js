@@ -1,5 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
+import "./icon.css"
+
 export const GlobalStyle = createGlobalStyle`
     * {
         margin: 0px;
@@ -21,23 +23,6 @@ export const GlobalStyle = createGlobalStyle`
         background-color: #f1f1f1;
     }
 
-    .icon.resume-user {
-        cursor: pointer;
-        display: inline-block;
-        min-width: 32px;
-        min-height: 32px;
-        background-color: #333 !important;
-        mask-repeat: no-repeat;
-        -webkit-mask-repeat: no-repeat;
-        mask-size: contain;
-        -webkit-mask-size: contain;
-        mask-position: center;
-        -webkit-mask-position: center;
-        mask-image: url('../icons/resume_user.svg');
-        -webkit-mask-image: url('../icons/resume_user.svg');
-    }
-
-    
     h3 {
         text-align: center;
         font-size: 40px;

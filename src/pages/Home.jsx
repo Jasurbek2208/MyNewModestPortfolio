@@ -62,7 +62,7 @@ const StyledMain = styled.header`
 
   & > .container {
     & > .social-media {
-      margin: 30px 0px 40px;
+      margin: 30px 0px;
       display: flex;
       align-items: center;
       gap: 20px;
@@ -92,6 +92,12 @@ const StyledMain = styled.header`
 
     & > .download_resume {
       padding: 10px;
+      width: max-content;
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      gap: 20px;
       
       color: #333;
       font-size: 18px;
@@ -105,6 +111,18 @@ const StyledMain = styled.header`
       animation: fadeIn ease 0.9s;
       transition: 300ms ease-in-out;
 
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 52px;
+        width: 2px;
+        background-color: #333;
+        will-change: background-color;
+        transition: 300ms ease-in-out;
+      }
+
       &:hover,
       &:focus {
         color: #fff;
@@ -113,6 +131,10 @@ const StyledMain = styled.header`
 
         .icon.resume-user {
           background-color: #fff !important;
+        }
+
+        &::before {
+          background-color: #fff;
         }
       }
     }
