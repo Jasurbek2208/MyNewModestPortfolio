@@ -27,7 +27,7 @@ export default function Home() {
             <img className="icon" src={linkedin} alt="linkedin logo" />
           </a>
         </div>
-        <a href="https://cdn.glitch.global/ebe6044e-04ea-46ed-8ac3-98d332171519/Jasurbek_Shomaqsudov_Resume.pdf?v=1695927257741" target="_blank" rel="noopener noreferrer" download="Jasurbek_Shomaqsudov_Resume.pdf" className="download_resume">
+        <a href="https://cdn.glitch.global/ebe6044e-04ea-46ed-8ac3-98d332171519/Jasurbek%20Shomaqsudov%20Resume.pdf?v=1700488409666" target="_blank" rel="noopener noreferrer" download="Jasurbek_Shomaqsudov_Resume.pdf" className="download_resume">
           <i className="icon resume-user" />
           Download Resume
         </a>
